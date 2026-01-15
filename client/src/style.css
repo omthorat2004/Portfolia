@@ -1,59 +1,66 @@
 @import "tailwindcss";
 
 /* =============================
-   Light mode palette (modern blue/slate)
+   Light mode – Graphite Teal
    ============================= */
 :root {
-  --background: #f8fafc;          /* slate-50 */
-  --foreground: #0f172a;          /* slate-900 */
-  --muted: #64748b;               /* slate-500 */
+  --background: #f7f8fa;          /* soft graphite */
+  --foreground: #111827;          /* near-black */
+  --muted: #6b7280;               /* cool gray */
   --card: #ffffff;
 
-  --accent: #3b82f6;              /* blue-500 */
-  --accent-hover: #2563eb;        /* blue-600 */
+  --accent: #0d9488;              /* teal-600 */
+  --accent-hover: #0f766e;        /* teal-700 */
   --accent-text: #ffffff;
 
-  --destructive: #ef4444;         /* red-500 */
-  --destructive-hover: #dc2626;   /* red-600 */
+  --secondary: #f59e0b;           /* amber-500 */
+  --secondary-hover: #d97706;
 
-  --border: #e2e8f0;              /* slate-200 */
+  --destructive: #dc2626;
+  --destructive-hover: #b91c1c;
 
-  --success: #22c55e;             /* green-500 */
-  --success-hover: #16a34a;       /* green-600 */
+  --border: #e5e7eb;
 
-  --link: #0ea5e9;                /* sky-500 */
-  --link-hover: #0284c7;          /* sky-600 */
+  --success: #16a34a;
+  --success-hover: #15803d;
 
-  --header-bg: #ffffff;
-  --shadow-card: rgba(0, 0, 0, 0.06);
+  --link: #0d9488;
+  --link-hover: #115e59;
+
+  --header-bg: rgba(255, 255, 255, 0.85);
+  --shadow-card: rgba(0, 0, 0, 0.08);
+
   --font-body: var(--font-body);
 }
 
 /* =============================
-   Dark mode
+   Dark mode – Graphite Teal
    ============================= */
 .dark {
-  --background: #0f172a;         /* slate-900 */
-  --foreground: #f1f5f9;         /* slate-100 */
-  --muted: #94a3b8;              /* slate-400 */
-  --card: #020617;               /* near-black */
+  --background: #0b1220;          /* graphite dark */
+  --foreground: #e5e7eb;
+  --muted: #9ca3af;
+  --card: #111827;
 
-  --accent: #60a5fa;             /* blue-400 */
-  --accent-hover: #3b82f6;       /* blue-500 */
-  --accent-text: #ffffff;
+  --accent: #2dd4bf;              /* teal-400 */
+  --accent-hover: #14b8a6;
+  --accent-text: #042f2e;
+
+  --secondary: #fbbf24;
+  --secondary-hover: #f59e0b;
 
   --destructive: #f87171;
   --destructive-hover: #ef4444;
 
-  --border: #1e293b;
+  --border: #1f293b;
 
   --success: #4ade80;
   --success-hover: #22c55e;
 
-  --link: #38bdf8;
-  --link-hover: #0ea5e9;
+  --link: #2dd4bf;
+  --link-hover: #5eead4;
 
-  --header-bg: #020617;
+  --header-bg: rgba(17, 24, 39, 0.9);
   --shadow-card: rgba(0, 0, 0, 0.6);
 }
 
@@ -71,6 +78,9 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-accent-text: var(--accent-text);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-hover: var(--secondary-hover);
 
   --color-destructive: var(--destructive);
   --color-destructive-hover: var(--destructive-hover);
@@ -255,3 +265,13 @@ select:focus {
 .recharts-wrapper .recharts-surface:focus {
   outline: none;
 }
+
+
+
+/* Apply Directives */
+
+.nav-btn{
+    @apply cursor-pointer bg-accent text-accent-text hover:bg-accent-hover px-3 py-1 rounded-md
+}
+
+
