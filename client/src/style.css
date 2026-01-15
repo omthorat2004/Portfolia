@@ -1,0 +1,257 @@
+@import "tailwindcss";
+
+/* =============================
+   Light mode palette (modern blue/slate)
+   ============================= */
+:root {
+  --background: #f8fafc;          /* slate-50 */
+  --foreground: #0f172a;          /* slate-900 */
+  --muted: #64748b;               /* slate-500 */
+  --card: #ffffff;
+
+  --accent: #3b82f6;              /* blue-500 */
+  --accent-hover: #2563eb;        /* blue-600 */
+  --accent-text: #ffffff;
+
+  --destructive: #ef4444;         /* red-500 */
+  --destructive-hover: #dc2626;   /* red-600 */
+
+  --border: #e2e8f0;              /* slate-200 */
+
+  --success: #22c55e;             /* green-500 */
+  --success-hover: #16a34a;       /* green-600 */
+
+  --link: #0ea5e9;                /* sky-500 */
+  --link-hover: #0284c7;          /* sky-600 */
+
+  --header-bg: #ffffff;
+  --shadow-card: rgba(0, 0, 0, 0.06);
+  --font-body: var(--font-body);
+}
+
+/* =============================
+   Dark mode
+   ============================= */
+.dark {
+  --background: #0f172a;         /* slate-900 */
+  --foreground: #f1f5f9;         /* slate-100 */
+  --muted: #94a3b8;              /* slate-400 */
+  --card: #020617;               /* near-black */
+
+  --accent: #60a5fa;             /* blue-400 */
+  --accent-hover: #3b82f6;       /* blue-500 */
+  --accent-text: #ffffff;
+
+  --destructive: #f87171;
+  --destructive-hover: #ef4444;
+
+  --border: #1e293b;
+
+  --success: #4ade80;
+  --success-hover: #22c55e;
+
+  --link: #38bdf8;
+  --link-hover: #0ea5e9;
+
+  --header-bg: #020617;
+  --shadow-card: rgba(0, 0, 0, 0.6);
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* =============================
+   Theme mapping
+   ============================= */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-text: var(--accent-text);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-hover: var(--destructive-hover);
+
+  --color-border: var(--border);
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+
+  --color-link: var(--link);
+  --color-link-hover: var(--link-hover);
+
+  --color-header-bg: var(--header-bg);
+  --color-shadow-card: var(--shadow-card);
+
+  --font-body: var(--font-body);
+}
+
+/* =============================
+   Base styles
+   ============================= */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* =============================
+   Scrollbar
+   ============================= */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #4a4a4a transparent;
+  overflow: auto;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #4a4a4a;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #5a5a5a;
+}
+
+/* =============================
+   Cards
+   ============================= */
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px var(--color-shadow-card);
+  padding: 1rem;
+  transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+}
+
+/* =============================
+   Buttons
+   ============================= */
+.button {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover {
+  background: var(--color-accent-hover);
+}
+
+.button-destructive {
+  background: var(--color-destructive);
+  color: #fff;
+}
+
+.button-destructive:hover {
+  background: var(--color-destructive-hover);
+}
+
+/* =============================
+   Links
+   ============================= */
+a {
+  color: var(--color-link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-link-hover);
+  text-decoration: underline;
+}
+
+/* =============================
+   Alerts
+   ============================= */
+.alert-success {
+  color: var(--color-success);
+}
+
+.alert-error {
+  color: var(--color-destructive);
+}
+
+/* =============================
+   Form Fields
+   ============================= */
+input,
+textarea,
+select {
+  background: var(--color-card);
+  color: var(--foreground);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  outline: none;
+  transition: border 0.2s, background 0.2s;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.25);
+}
+
+/* =============================
+   Navbar
+   ============================= */
+.navbar {
+  background: var(--color-header-bg);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* =============================
+   Projects Grid
+   ============================= */
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.project-title {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--foreground);
+}
+
+.project-description {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.recharts-wrapper .recharts-surface:focus {
+  outline: none;
+}
