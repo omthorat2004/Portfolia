@@ -1,67 +1,67 @@
 @import "tailwindcss";
 
 /* =============================
-   Light mode – Graphite Teal
+   Light mode – Warm Orange
    ============================= */
 :root {
-  --background: #f7f8fa;          /* soft graphite */
-  --foreground: #111827;          /* near-black */
-  --muted: #6b7280;               /* cool gray */
+  --background: #fff7ed;          /* orange-50 */
+  --foreground: #431407;          /* orange-950 */
+  --muted: #7c2d12;               /* orange-800 */
   --card: #ffffff;
 
-  --accent: #0d9488;              /* teal-600 */
-  --accent-hover: #0f766e;        /* teal-700 */
+  --accent: #ea580c;              /* orange-600 */
+  --accent-hover: #c2410c;        /* orange-700 */
   --accent-text: #ffffff;
 
-  --secondary: #f59e0b;           /* amber-500 */
-  --secondary-hover: #d97706;
+  --secondary: #facc15;           /* yellow-400 */
+  --secondary-hover: #eab308;
 
   --destructive: #dc2626;
   --destructive-hover: #b91c1c;
 
-  --border: #e5e7eb;
+  --border: #fed7aa;              /* orange-200 */
 
   --success: #16a34a;
   --success-hover: #15803d;
 
-  --link: #0d9488;
-  --link-hover: #115e59;
+  --link: #ea580c;
+  --link-hover: #9a3412;
 
   --header-bg: rgba(255, 255, 255, 0.85);
-  --shadow-card: rgba(0, 0, 0, 0.08);
+  --shadow-card: rgba(0, 0, 0, 0.06);
 
   --font-body: var(--font-body);
 }
 
 /* =============================
-   Dark mode – Graphite Teal
+   Dark mode – Neutral Dark + Orange Accent (FIXED)
    ============================= */
 .dark {
-  --background: #0b1220;          /* graphite dark */
-  --foreground: #e5e7eb;
-  --muted: #9ca3af;
-  --card: #111827;
+  --background: #0f172a;          /* slate-900 */
+  --foreground: #e5e7eb;          /* gray-200 */
+  --muted: #9ca3af;               /* gray-400 */
+  --card: #111827;                /* slate-800 */
 
-  --accent: #2dd4bf;              /* teal-400 */
-  --accent-hover: #14b8a6;
-  --accent-text: #042f2e;
+  --accent: #fb923c;              /* orange-400 */
+  --accent-hover: #f97316;        /* orange-500 */
+  --accent-text: #0f172a;
 
-  --secondary: #fbbf24;
-  --secondary-hover: #f59e0b;
+  --secondary: #fde047;           /* yellow-300 */
+  --secondary-hover: #facc15;
 
   --destructive: #f87171;
   --destructive-hover: #ef4444;
 
-  --border: #1f293b;
+  --border: #1f2937;              /* slate-700 */
 
   --success: #4ade80;
   --success-hover: #22c55e;
 
-  --link: #2dd4bf;
-  --link-hover: #5eead4;
+  --link: #fdba74;                /* soft orange */
+  --link-hover: #fed7aa;
 
-  --header-bg: rgba(17, 24, 39, 0.9);
-  --shadow-card: rgba(0, 0, 0, 0.6);
+  --header-bg: rgba(15, 23, 42, 0.85);
+  --shadow-card: rgba(0, 0, 0, 0.35);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -101,6 +101,7 @@
 /* =============================
    Base styles
    ============================= */
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -158,6 +159,10 @@ body::-webkit-scrollbar {
 /* =============================
    Buttons
    ============================= */
+
+button{
+  cursor: pointer;
+}
 .button {
   background: var(--color-accent);
   color: var(--color-accent-text);
@@ -271,7 +276,18 @@ select:focus {
 /* Apply Directives */
 
 .nav-btn{
-    @apply cursor-pointer bg-accent text-accent-text hover:bg-accent-hover px-3 py-1 rounded-md
+    @apply cursor-pointer bg-accent text-accent-text hover:bg-accent-hover px-4 py-1 rounded-md
 }
 
+.section-headline{
+  @apply text-5xl max-w-2xl font-bold mx-auto
+}
+
+.auth-input-icons{
+  @apply absolute top-[50%] translate-y-[-50%] right-4 text-accent
+}
+
+input:focus{
+  box-shadow: none;
+}
 
