@@ -10,7 +10,7 @@ const Footer = () => {
             <FiLayers style={{ strokeWidth: 3 }} className="font-extrabold" />
             <h1 className="">Portfolia</h1>
         </div>
-        <p className='text-sm'>© {new Date().getFullYear()} CoreDump. All rights reserved.</p>
+        <p className='text-sm'>© {new Date().getFullYear()} Portfolia. All rights reserved.</p>
         <div className='flex gap-2 text-accent'>
             <FaGithub className='cursor-pointer' size={20}/>
             <FaLinkedin className='cursor-pointer' size={20}/>

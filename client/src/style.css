@@ -6,62 +6,62 @@
 :root {
   --background: #fff7ed;          /* orange-50 */
   --foreground: #431407;          /* orange-950 */
-  --muted: #7c2d12;               /* orange-800 */
-  --card: #ffffff;
+  --muted: #9a3412;               /* orange-700 */
+  --card: #ffedd5;                /* orange-100 – distinguish from background */
 
   --accent: #ea580c;              /* orange-600 */
   --accent-hover: #c2410c;        /* orange-700 */
   --accent-text: #ffffff;
 
   --secondary: #facc15;           /* yellow-400 */
-  --secondary-hover: #eab308;
+  --secondary-hover: #eab308;     /* yellow-500 */
 
-  --destructive: #dc2626;
-  --destructive-hover: #b91c1c;
+  --destructive: #dc2626;         /* red-600 */
+  --destructive-hover: #b91c1c;   /* red-700 */
 
-  --border: #fed7aa;              /* orange-200 */
+  --border: #fcd9b6;              /* orange-200 – subtle card border */
 
-  --success: #16a34a;
-  --success-hover: #15803d;
+  --success: #16a34a;             /* green-600 */
+  --success-hover: #15803d;       /* green-700 */
 
-  --link: #ea580c;
-  --link-hover: #9a3412;
+  --link: #ea580c;                /* orange-600 */
+  --link-hover: #9a3412;          
 
-  --header-bg: rgba(255, 255, 255, 0.85);
-  --shadow-card: rgba(0, 0, 0, 0.06);
+  --header-bg: rgba(255, 255, 255, 0.9); /* slightly less transparent */
+  --shadow-card: rgba(0, 0, 0, 0.08);    /* subtle shadow */
 
   --font-body: var(--font-body);
 }
 
 /* =============================
-   Dark mode – Neutral Dark + Orange Accent (FIXED)
+   Dark mode – Neutral Dark + Orange Accent
    ============================= */
 .dark {
   --background: #0f172a;          /* slate-900 */
   --foreground: #e5e7eb;          /* gray-200 */
   --muted: #9ca3af;               /* gray-400 */
-  --card: #111827;                /* slate-800 */
+  --card: #1e293b;                /* slate-800 – stands out from background */
 
   --accent: #fb923c;              /* orange-400 */
   --accent-hover: #f97316;        /* orange-500 */
-  --accent-text: #0f172a;
+  --accent-text: #0f172a;         /* dark text on orange accent */
 
   --secondary: #fde047;           /* yellow-300 */
   --secondary-hover: #facc15;
 
-  --destructive: #f87171;
-  --destructive-hover: #ef4444;
+  --destructive: #f87171;         /* red-400 */
+  --destructive-hover: #ef4444;   /* red-500 */
 
-  --border: #1f2937;              /* slate-700 */
+  --border: #374151;              /* slate-700 – subtle border */
 
-  --success: #4ade80;
-  --success-hover: #22c55e;
+  --success: #4ade80;             /* green-400 */
+  --success-hover: #22c55e;       /* green-500 */
 
   --link: #fdba74;                /* soft orange */
   --link-hover: #fed7aa;
 
   --header-bg: rgba(15, 23, 42, 0.85);
-  --shadow-card: rgba(0, 0, 0, 0.35);
+  --shadow-card: rgba(0, 0, 0, 0.35); /* stronger shadow for dark mode */
 }
 
 @custom-variant dark (&:where(.dark, .dark *));

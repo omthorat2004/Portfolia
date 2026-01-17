@@ -40,3 +40,41 @@ export const faqs = [
     answer: "Yes, a well-organized project portfolio can impress recruiters and help in off-campus or internship opportunities."
   }
 ];
+
+
+import { AiOutlineProject, AiOutlineUserAdd } from "react-icons/ai";
+import { MdOutlineFolderOpen, MdOutlineShare } from "react-icons/md";
+import { TbReportAnalytics } from "react-icons/tb";
+
+export const howItWorksSteps = [
+  {
+    id: 1,
+    icon: AiOutlineUserAdd,
+    title: "Create an Account",
+    description: "Sign up in seconds and start building your personal project portfolio.",
+  },
+  {
+    id: 2,
+    icon: AiOutlineProject,
+    title: "Add Your Project",
+    description: "Include title, description, problem statement, tech stack, and project links (GitHub, demo, PPT).",
+  },
+  {
+    id: 3,
+    icon: MdOutlineShare,
+    title: "Share & Showcase",
+    description: "Get a public project portfolio link to share with recruiters, peers, or social media.",
+  },
+  {
+    id: 4,
+    icon: MdOutlineFolderOpen,
+    title: "Organize Projects",
+    description: "Keep all your projects in one place, neatly categorized and easy to manage.",
+  },
+  {
+    id: 5,
+    icon: TbReportAnalytics,
+    title: "Track & Improve",
+    description: "Track project updates, collect feedback, and continuously improve your portfolio.",
+  },
+];

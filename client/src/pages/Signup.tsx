@@ -6,14 +6,14 @@ const Signup = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // handle signup logic here
+   
   };
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-background">
       <form
         onSubmit={handleSubmit}
-        className="card flex flex-col items-center gap-6 w-[350px]"
+        className="card flex bg-card flex-col items-center gap-6 w-[400px]"
       >
         <h2 className="text-2xl font-semibold text-foreground">Sign Up</h2>
 
@@ -22,10 +22,10 @@ const Signup = () => {
           <input
             type="text"
             placeholder="Full Name"
-            className="w-full border border-border rounded-md p-3 pl-10 focus:outline-none focus:border-accent focus:ring-0"
+            className="w-full border-1 border-border rounded-md p-3 pl-10 focus:outline-none focus:border-accent focus:ring-0"
             required
           />
-          <FaUser className="auth-input-icons left-3 top-[50%] translate-y-[-50%]" />
+          <FaUser className="auth-input-icons right-3 top-[50%] translate-y-[-50%]" />
         </div>
 
         {/* Email Field */}
@@ -36,7 +36,7 @@ const Signup = () => {
             className="w-full border border-border rounded-md p-3 pl-10 focus:outline-none focus:border-accent focus:ring-0"
             required
           />
-          <FaEnvelope className="auth-input-icons left-3 top-[50%] translate-y-[-50%]" />
+          <FaEnvelope className="auth-input-icons  top-[50%] translate-y-[-50%]" />
         </div>
 
         {/* Password Field */}

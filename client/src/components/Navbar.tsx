@@ -26,16 +26,16 @@ const Navbar = () => {
     };
 
     return (
-        <div className='bg-background/10 w-screen backdrop-blur-sm fixed px-4 py-4  top-0 '>
+        <div className='bg-background/10 w-screen backdrop-blur-sm fixed px-4 py-4  top-0 z-1000'>
             <div className='flex flex-col w-full justify-between max-w-5xl md:mx-auto gap-2'>
                 <div className="w-full flex justify-between items-center">
-                    <div className='heading flex justify-center items-center cursor-pointer gap-2 text-accent hover:text-accent-hover text-2xl font-bold'>
+                    <div onClick={()=>navigate('/')} className='heading flex justify-center items-center cursor-pointer gap-2 text-accent hover:text-accent-hover text-2xl font-bold'>
                         <FiLayers style={{ strokeWidth: 3 }} className="font-extrabold" />
                         <h1 className="">Portfolia</h1>
                     </div>
                     <div className="hidden nav-menu md:flex gap-3 text-base font-semibold">
-                        <button className="cursor-pointer text-link hover:text-link-hover">How it works</button>
-                        <button className="cursor-pointer text-link hover:text-link-hover">Projects</button>
+                        <button onClick={()=>navigate('/howitworks')} className="cursor-pointer text-link hover:text-link-hover">How it works</button>
+                        <button onClick={()=>navigate('/projects')}  className="cursor-pointer text-link hover:text-link-hover">Projects</button>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex justify-center items-center text-xl cursor-pointer" onClick={toggleTheme}>
@@ -64,7 +64,7 @@ const Navbar = () => {
                             <button className="cursor-pointer text-link hover:text-link-hover">
                                 How it Works
                             </button>
-                            <button className="cursor-pointer text-link hover:text-link-hover">
+                            <button onClick={()=>navigate('/projects')} className="cursor-pointer text-link hover:text-link-hover">
                                 Projects
                             </button>
                             <button onClick={()=>navigate('/login')} className="nav-btn">Login</button>

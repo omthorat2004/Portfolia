@@ -10,10 +10,10 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen bg-background">
+    <div className="flex justify-center items-center w-screen h-screen bg-background border-border">
       <form
         onSubmit={handleSubmit}
-        className="card flex flex-col items-center gap-6 w-[400px]"
+        className="card border-6 flex flex-col items-center bg-card gap-6 w-[400px]"
       >
         <h2 className="text-2xl font-semibold text-foreground">Login</h2>
 
@@ -22,7 +22,7 @@ const Login = () => {
           <input
             type="email"
             placeholder="Email"
-            className="w-full border border-border rounded-md p-3 pr-10 focus:outline-none focus:border-accent focus:ring-0"
+            className="w-full border-4 border-border rounded-md p-3 pr-10 focus:outline-none focus:border-accent focus:ring-0"
             required
           />
           <FaEnvelope className="auth-input-icons" />

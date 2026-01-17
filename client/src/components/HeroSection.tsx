@@ -4,7 +4,7 @@ import { AiOutlineProject } from "react-icons/ai";
 
 const HeroSection = () => {
   return (
-    <div className="px-4 md:px-0 mt-25">
+    <div className="px-4 md:px-0">
         <div className="max-w-5xl mx-auto text-center py-5 flex flex-col gap-4">
             <h1 className="section-headline text-6xl">Built for Developers Who Care About Their Work</h1>
             <p className="font-semibold  mx-auto">Document projects with code links, tech stacks, and demos — without clutter.</p>
