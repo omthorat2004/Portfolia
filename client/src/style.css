@@ -287,7 +287,9 @@ select:focus {
   @apply absolute top-[50%] translate-y-[-50%] right-4 text-accent
 }
 
-input:focus{
+
+
+input:focus,textarea:focus{
   box-shadow: none;
 }
 

@@ -8,6 +8,7 @@ import Signup from "./pages/Signup";
 import HowItWorks from "./pages/HowItWorks";
 import Footer from "./components/Footer";
 import Projects from "./pages/Projects";
+import Register from "./pages/Register";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -27,6 +28,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
       <Route path="/howitworks" element={<HowItWorks/>}/>
       <Route path="/projects" element={<Projects/>}/>
+      <Route path="/register" element={<Register/>}/>
     </Routes>
     <Footer/>
     </BrowserRouter>
