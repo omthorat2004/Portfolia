@@ -27,7 +27,7 @@ const Register = () => {
 
   const [additionalLinks, setAdditionalLinks] = useState<AdditionalLink[]>([]);
 
-  /* ---------- Skills ---------- */
+ 
   const addSkill = () => {
     if (!skillInput.trim()) return;
     if (skills.includes(skillInput.trim())) return;
