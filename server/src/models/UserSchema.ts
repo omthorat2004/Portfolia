@@ -1,19 +1,19 @@
 import mongoose, { Document, Model } from "mongoose";
 
-// Type for additional links
+
 type AdditionalLink = {
   label: string;
   value: string;
 };
 
-// Type for social links
+
 type SocialLinks = {
   github?: string;
   twitter?: string;
   portfolio?: string;
 };
 
-// Interface for User
+
 export interface IUser extends Document {
   name: string;
   email: string;
@@ -25,7 +25,7 @@ export interface IUser extends Document {
   additionalLinks?: AdditionalLink[];
 }
 
-// User Schema
+
 const userSchema = new mongoose.Schema<IUser>(
   {
     name: { type: String, required: true },
@@ -44,10 +44,10 @@ const userSchema = new mongoose.Schema<IUser>(
       default: [],
     },
   },
-  { timestamps: true } // adds createdAt and updatedAt
+  { timestamps: true } 
 );
 
-// Create User model
+
 const User: Model<IUser> = mongoose.model<IUser>("User", userSchema);
 
 export default User;
