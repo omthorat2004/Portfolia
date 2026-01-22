@@ -17,7 +17,6 @@ const Signup = () => {
       >
         <h2 className="text-2xl font-semibold text-foreground">Sign Up</h2>
 
-        {/* Name Field */}
         <div className="w-full relative">
           <input
             type="text"
@@ -28,7 +27,6 @@ const Signup = () => {
           <FaUser className="auth-input-icons right-3 top-[50%] translate-y-[-50%]" />
         </div>
 
-        {/* Email Field */}
         <div className="w-full relative">
           <input
             type="email"
@@ -39,7 +37,6 @@ const Signup = () => {
           <FaEnvelope className="auth-input-icons  top-[50%] translate-y-[-50%]" />
         </div>
 
-        {/* Password Field */}
         <div className="w-full relative">
           <input
             type={showPassword ? "text" : "password"}
