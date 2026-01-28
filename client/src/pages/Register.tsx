@@ -7,6 +7,7 @@ import {
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 type AdditionalLink = {
   label: string;
@@ -14,6 +15,7 @@ type AdditionalLink = {
 };
 
 const Register = () => {
+
   const [bio, setBio] = useState("");
 
   const [social, setSocial] = useState({
@@ -69,6 +71,10 @@ const Register = () => {
       additionalLinks,
     };
 
+    if(skills.length==0){
+      toast.error("Skills required")
+    }
+
     console.log("REGISTER DATA:", payload);
   };
 
@@ -100,6 +106,7 @@ const Register = () => {
             type="url"
             placeholder="GitHub profile"
             value={social.github}
+            required
             onChange={(e) =>
               setSocial({ ...social, github: e.target.value })
             }
@@ -114,6 +121,7 @@ const Register = () => {
             type="url"
             placeholder="X (Twitter) profile"
             value={social.twitter}
+            required
             onChange={(e) =>
               setSocial({ ...social, twitter: e.target.value })
             }
@@ -131,6 +139,7 @@ const Register = () => {
             onChange={(e) =>
               setSocial({ ...social, portfolio: e.target.value })
             }
+            required
             className="w-full border border-border rounded-md p-3 pr-10"
           />
           <FaLink className="absolute right-3 top-3 text-muted" />
@@ -144,6 +153,7 @@ const Register = () => {
               onChange={(e) => setSkillInput(e.target.value)}
               placeholder="Add a skill (e.g. React)"
               className="flex-1 border border-border rounded-md p-2"
+
             />
             <button
               type="button"

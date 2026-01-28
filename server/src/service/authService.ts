@@ -5,7 +5,7 @@ import { generateToken } from "../utils/auth";
 
 
 
- const authService = {
+const authService = {
     signup: async (name: string, email: string, password: string) => {
         const existingUser = await User.findOne({ email });
 

@@ -28,9 +28,22 @@ export const register = async (req: Request, res: Response) => {
     try {
 
         const { email, social, bio, skills, additionalLinks } = req.body
+        if(!email||social.length==0||!bio||skills.length==0){
+            return res.status(400).json({message:'All fields are required!'})
+        }
 
+        const user = await authService.register(email,bio,social,skills,additionalLinks)
+        if(!user){
+            throw new Error()
+        }
+        return res.status(200).json({user})
     } catch (err) {
+         console.error(err);
 
+        const statusCode = err instanceof ApiError ? err.statusCode : 500;
+        const message = err instanceof ApiError ? err.message : "Server Error";
+
+        return res.status(statusCode).json({ message });
     }
 }
 
