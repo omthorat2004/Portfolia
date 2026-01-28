@@ -9,7 +9,7 @@ const initialState = {
   error: null,
 };
 
-export const signup = createAsyncThunk("auth/signup",async(body,{rejecWithValue})=>{
+export const signup = createAsyncThunk("auth/signup",async(body,{rejectWithValue})=>{
     try{
         
     }catch(err){

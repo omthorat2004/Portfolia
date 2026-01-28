@@ -7,7 +7,7 @@ type AdditionalLink = {
 };
 
 
-type SocialLinks = {
+export type SocialLinks = {
   github?: string;
   twitter?: string;
   portfolio?: string;
