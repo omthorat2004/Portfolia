@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { FaEnvelope, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
 
+const defaultData ={
+  name:'',
+  email:'',
+  password:''
+}
+
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData,setFormData]
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

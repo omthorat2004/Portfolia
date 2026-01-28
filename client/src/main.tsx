@@ -6,9 +6,12 @@ import './global.css'
   import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/ReactToastify.css'
+import { Provider } from 'react-redux'
+import { store } from './store/store.ts'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-    <ToastContainer/>
+    <Provider store={store}>
+      <App/>
+    </Provider>
   </StrictMode>,
 )

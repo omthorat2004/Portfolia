@@ -1,14 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEnvelope, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../store/hook";
+import { verifyUser } from "../features/authentication/authenticationSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email,setEmail] = useState<string>()
+  const [password,setPassword] = useState<string>()
+  const {token,isProfileComplete }= useAppSelector((state)=>state.auth)
+  
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // handle login logic here
+    // console.log("Email:",email)
+    // console.log("Password:",password)
+
   };
 
+
+  
+
+  useEffect(()=>{
+    if(token){
+      dispatch(verifyUser())
+    }
+  },[token])
+
+  useEffect(()=>{
+    if(token){
+      if(isProfileComplete){
+        navigate('/dashboard')
+      }else{
+        navigate('/register')
+      }
+    }
+  },[isProfileComplete])
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-background border-border">
       <form
@@ -23,6 +53,8 @@ const Login = () => {
             type="email"
             placeholder="Email"
             className="w-full border-4 border-border rounded-md p-3 pr-10 focus:outline-none focus:border-accent focus:ring-0"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
             required
           />
           <FaEnvelope className="auth-input-icons" />
@@ -33,6 +65,8 @@ const Login = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
             className="w-full border border-border rounded-md p-3 pr-10 focus:outline-none focus:border-accent focus:ring-0"
             required
           />

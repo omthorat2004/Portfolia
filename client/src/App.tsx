@@ -9,14 +9,27 @@ import HowItWorks from "./pages/HowItWorks";
 import Footer from "./components/Footer";
 import Projects from "./pages/Projects";
 import Register from "./pages/Register";
+import { useAppDispatch } from "./store/hook";
+import { logOut } from "./features/authentication/authenticationSlice";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
     const html = document.documentElement;
     html.classList.toggle("dark", darkMode);
   }, [darkMode]);
+
+  useEffect(()=>{
+    try{
+      
+    }catch(err){
+      console.error(err)
+      dispatch(logOut())
+    }
+  },[])
+
 
   return (
     <>
