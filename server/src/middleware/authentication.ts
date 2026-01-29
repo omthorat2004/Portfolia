@@ -29,8 +29,9 @@ export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
   }
 
   try {
-    const decoded = verify(token, JWT_SECRET) as { userId: string };
-    req.userId = decoded.userId; 
+    const decoded = verify(token, JWT_SECRET) as { id: string };
+    // console.log(decoded)
+    req.userId = decoded.id; 
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" });

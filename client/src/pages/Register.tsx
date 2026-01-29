@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaGithub,
   FaTwitter,
@@ -7,7 +7,10 @@ import {
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "../store/hook";
+import { registerProfile } from "../features/authentication/authenticationSlice";
 
 type AdditionalLink = {
   label: string;
@@ -17,17 +20,22 @@ type AdditionalLink = {
 const Register = () => {
 
   const [bio, setBio] = useState("");
-
+  const [email,setEmail] = useState("")
   const [social, setSocial] = useState({
     github: "",
     twitter: "",
     portfolio: "",
   });
+  const token = useAppSelector((state)=>state.auth.token)
+  const isProfileComplete = useAppSelector((state)=>state.auth.isProfileComplete)
 
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState("");
 
   const [additionalLinks, setAdditionalLinks] = useState<AdditionalLink[]>([]);
+
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
  
   const addSkill = () => {
@@ -69,15 +77,44 @@ const Register = () => {
       social,
       skills,
       additionalLinks,
+      email
     };
 
     if(skills.length==0){
       toast.error("Skills required")
     }
-
-    console.log("REGISTER DATA:", payload);
+    dispatch(registerProfile(payload))
   };
 
+
+  const fetchUserEmailUsingfToken = async()=>{
+    try{
+      const response =await fetch(`${import.meta.env.VITE_APP_BACKEND_API}/auth/return-email`,{
+        headers:{
+          'Authorization':`Bearer ${token}`
+        }
+      })
+      if(!response.ok){
+        throw new Error('Error occurred!')
+      }
+      const data = await response.json()
+      setEmail(data?.email)
+    }catch(err){
+      console.log(err)
+      toast.error('First login for Register!')
+      navigate('/login')
+    }
+  }
+
+  useEffect(()=>{
+    fetchUserEmailUsingfToken()
+  },[])
+
+  useEffect(()=>{
+    if(isProfileComplete){
+      navigate('/dashboard')
+    }
+  },[isProfileComplete])
   return (
     <div className="flex mt-10 min-h-screen items-center justify-center">
       <form

@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_API;
 
@@ -100,6 +101,7 @@ export const registerProfile = createAsyncThunk(
       if (!res.ok) throw data.message;
       return data.user;
     } catch (err: any) {
+      console.log(err)
       return rejectWithValue(err);
     }
   }
@@ -132,10 +134,12 @@ const authSlice = createSlice({
         state.token = action.payload;
         state.isAuthenticated = true;
         localStorage.setItem("portfolia-token", action.payload);
+        toast.success('Signup successful! Register yourself!')
       })
       .addCase(signup.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+        toast.error(action.payload as string)
       })
 
       // Login
@@ -152,8 +156,6 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       })
-
-      // Verify User
       .addCase(verifyUser.fulfilled, (state, action) => {
         state.isAuthenticated = true;
         state.user = action.payload;
@@ -164,7 +166,10 @@ const authSlice = createSlice({
       .addCase(registerProfile.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isProfileComplete = true;
-      });
+      })
+      .addCase(registerProfile.rejected,(state,action)=>{
+        state.error = action.payload as string
+  })
   },
 });
 

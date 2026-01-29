@@ -18,6 +18,16 @@ router.get('/verifyuser',verifyUser,async(req,res)=>{
     res.status(200).json({message:'Token is valid!',user})
 })
 
+router.get('/return-email',verifyUser,async(req,res)=>{
+    try{
+        const id = req.userId
+        const user = await User.findById(id,'email')
+        return res.status(200).json({email:user?.email})
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({err:'Server Error Occurred!'})
+    }
+})
 
 // router.get('/dashboard', verifyUser, isProfileComplete, dashboard);
 

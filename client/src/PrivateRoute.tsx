@@ -1,21 +1,14 @@
-import React from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useAppSelector } from './store/hook';
+import { Navigate, Outlet } from "react-router-dom";
+import { useAppSelector } from "./store/hook";
 
 const PrivateRoute = () => {
-    const navigate = useNavigate()
-    const token = useAppSelector((state)=>state.auth.token)
+  const token = useAppSelector((state) => state.auth.token);
 
-    
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(!token){
-        navigate('/login')
-    }
-  return (
-    <div>
-        <Outlet/>
-    </div>
-  );
-}
+  return <Outlet />;
+};
 
 export default PrivateRoute;

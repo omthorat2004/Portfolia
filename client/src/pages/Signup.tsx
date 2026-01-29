@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaEnvelope, FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../store/hook";
+import { signup } from "../features/authentication/authenticationSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const defaultData ={
   name:'',
@@ -9,12 +13,38 @@ const defaultData ={
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData,setFormData]
+  const [formData,setFormData] = useState(defaultData)
+
+  const isAuthenticated = useAppSelector((state)=>state.auth.isAuthenticated)
+  const error = useAppSelector((state)=>state.auth.error)
+
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-   
+    // console.log(formData)
+    dispatch(signup(formData))
   };
+
+
+
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+    const {name,value} = e.target
+    setFormData((prev)=>({
+      ...prev,
+      [name]:value
+    }))
+  }
+
+  useEffect(()=>{
+    if(isAuthenticated){
+      navigate('/register')
+    }
+  },[isAuthenticated])
+
+
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-background">
@@ -28,8 +58,12 @@ const Signup = () => {
           <input
             type="text"
             placeholder="Full Name"
+            name="name"
             className="w-full border-1 border-border rounded-md p-3 pl-10 focus:outline-none focus:border-accent focus:ring-0"
+            value={formData.name}
+            onChange={handleChange}
             required
+
           />
           <FaUser className="auth-input-icons right-3 top-[50%] translate-y-[-50%]" />
         </div>
@@ -38,6 +72,9 @@ const Signup = () => {
           <input
             type="email"
             placeholder="Email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
             className="w-full border border-border rounded-md p-3 pl-10 focus:outline-none focus:border-accent focus:ring-0"
             required
           />
@@ -48,7 +85,10 @@ const Signup = () => {
           <input
             type={showPassword ? "text" : "password"}
             placeholder="Password"
+            name="password"
             className="w-full border border-border rounded-md p-3 pr-10 focus:outline-none focus:border-accent focus:ring-0"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
           {showPassword ? (

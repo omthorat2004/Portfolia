@@ -5,9 +5,13 @@ import { MdMenu } from "react-icons/md";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 
+
+
 const Navbar = () => {
     const [menuHidden, setMenuHidden] = useState(false)
     const [darkMode, setDarkMode] = useState(false)
+
+    
 
     const navigate = useNavigate()
 

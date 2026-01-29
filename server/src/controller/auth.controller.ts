@@ -66,3 +66,4 @@ export const login = async (req: Request, res: Response) => {
         return res.status(statusCode).json({ message });
     }
 }
+
