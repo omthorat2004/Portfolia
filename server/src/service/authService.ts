@@ -3,8 +3,6 @@ import { ApiError } from "../utils/apiError";
 import bcrypt from "bcryptjs";
 import { generateToken } from "../utils/auth";
 
-
-
 const authService = {
     signup: async (name: string, email: string, password: string) => {
         const existingUser = await User.findOne({ email });
@@ -18,15 +16,15 @@ const authService = {
         const user = new User({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            isProfileComplete: false // Set to false initially
         });
 
         await user.save();
 
-        const token = generateToken(user._id.toString());
-
-        return token;
+        return true; 
     },
+
     register: async (email: string, bio: string, social: SocialLinks, skills: string[], additionalLinks: any) => {
         const userExist = await User.findOne({ email })
         if (!userExist) {
@@ -50,21 +48,33 @@ const authService = {
         console.log(user)
         return user
     },
-    login:async(email:string,password:string)=>{
-        const userExist = await User.findOne({email});
-        if(!userExist){
-            throw new ApiError("User Does not exist",404)
+    
+    login: async (email: string, password: string) => {
+        const userExist = await User.findOne({ email });
+        if (!userExist) {
+            throw new ApiError("User Does not exist", 404)
         }
-        const isPasswordCorrect = await bcrypt.compare(password,userExist.password)
+        const isPasswordCorrect = await bcrypt.compare(password, userExist.password)
 
-        if(!isPasswordCorrect){
-            throw new ApiError("Email or Password is Incorrect",401)
+        if (!isPasswordCorrect) {
+            throw new ApiError("Email or Password is Incorrect", 401)
         }
 
         const token = generateToken(userExist._id.toString())
-        return token
+        return { 
+            token, 
+            user: {
+                id: userExist._id,
+                name: userExist.name,
+                email: userExist.email,
+                bio: userExist.bio,
+                social: userExist.social,
+                skills: userExist.skills,
+                additionalLinks: userExist.additionalLinks,
+                isProfileComplete: userExist.isProfileComplete
+            }
+        };
     }
 };
 
-
-export default authService
+export default authService;
