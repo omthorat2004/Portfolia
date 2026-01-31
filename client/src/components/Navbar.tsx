@@ -3,13 +3,17 @@ import { useState } from "react";
 import { FiLayers } from "react-icons/fi";
 import { MdMenu } from "react-icons/md";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../store/hook";
 
 
 
 const Navbar = () => {
     const [menuHidden, setMenuHidden] = useState(false)
     const [darkMode, setDarkMode] = useState(false)
+
+    const isAuthenticated = useAppSelector((state)=>state.auth.isAuthenticated)
 
     
 
@@ -45,10 +49,13 @@ const Navbar = () => {
                         <div className="flex justify-center items-center text-xl cursor-pointer" onClick={toggleTheme}>
                             {darkMode ? <MdLightMode /> : <MdDarkMode />}
                         </div>
-                        <div className="hidden md:flex justify-center items-center gap-3">
+                        {isAuthenticated?<div className="hidden md:flex justify-center items-center gap-3">
+                            <button className="nav-btn">Profile</button>
+                            <button className="nav-btn">Logout</button>
+                        </div>:<div className="hidden md:flex justify-center items-center gap-3">
                             <button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
                             <button onClick={()=>navigate('/signup')} className="nav-btn">Signup</button>
-                        </div>
+                        </div>}
                         <div className="flex justify-center items-center md:hidden">
                             <MdMenu onClick={() => setMenuHidden(!menuHidden)} className="text-accent" size={24} />
                         </div>

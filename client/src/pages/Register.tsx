@@ -146,6 +146,10 @@ const Register = () => {
     }
   }, [user]);
 
+  useEffect(()=>{
+    toast.success("Please register yourself first!")
+  },[])
+
   return (
     <div className="flex mt-10 min-h-screen items-center justify-center">
       <form
