@@ -3,10 +3,10 @@ import { useState } from "react";
 import { FiLayers } from "react-icons/fi";
 import { MdMenu } from "react-icons/md";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store/hook";
-
+import { logOut } from "../features/authentication/authenticationSlice";
 
 
 const Navbar = () => {
@@ -15,9 +15,12 @@ const Navbar = () => {
 
     const isAuthenticated = useAppSelector((state)=>state.auth.isAuthenticated)
 
-    
-
+    const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const logout = ()=>{
+        dispatch(logOut())
+    }
 
     const toggleTheme = () => {
         setDarkMode(prev => {
@@ -28,7 +31,6 @@ const Navbar = () => {
             } else {
                 document.documentElement.classList.remove("dark");
             }
-
             return newMode;
         });
     };
@@ -51,7 +53,7 @@ const Navbar = () => {
                         </div>
                         {isAuthenticated?<div className="hidden md:flex justify-center items-center gap-3">
                             <button className="nav-btn">Profile</button>
-                            <button className="nav-btn">Logout</button>
+                            <button  onClick={logout} className="nav-btn">Logout</button>
                         </div>:<div className="hidden md:flex justify-center items-center gap-3">
                             <button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
                             <button onClick={()=>navigate('/signup')} className="nav-btn">Signup</button>
@@ -67,7 +69,7 @@ const Navbar = () => {
                         className={`
     md:hidden overflow-hidden transform transition-all duration-300 ease-in-out
     ${menuHidden
-                                ? "max-h-[300px] opacity-100 translate-y-0"
+                                ? "max-h-75 opacity-100 translate-y-0"
                                 : "max-h-0 opacity-0 -translate-y-3"}
   `}
                     >
@@ -78,8 +80,8 @@ const Navbar = () => {
                             <button onClick={()=>navigate('/projects')} className="cursor-pointer text-link hover:text-link-hover">
                                 Projects
                             </button>
-                            <button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
-                            <button onClick={()=>navigate('/signup')} className="nav-btn">Signup</button>
+                            {isAuthenticated?<><button className="nav-btn">Profile</button><button className="nav-btn">Logout</button></>:<><button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
+                            <button onClick={()=>navigate('/signup')} className="nav-btn">Signup</button></>}
                         </div>
                     </div>
 

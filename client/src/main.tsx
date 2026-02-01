@@ -9,11 +9,12 @@ import 'react-toastify/ReactToastify.css'
 import { Provider } from 'react-redux'
 import { store } from './store/store.ts'
 import { BrowserRouter } from 'react-router-dom'
+import AppContainer from './AppContainer.tsx'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <AppContainer />
         <ToastContainer />
       </Provider>
     </BrowserRouter>
