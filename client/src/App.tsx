@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "./store/hook";
 import { logOut, verifyUser } from "./features/authentication/authenticationSlice";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
 
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile/>}/>
           </Route>
         </Routes>
         <Footer />

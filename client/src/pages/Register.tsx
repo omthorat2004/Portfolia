@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../store/hook";
 import { registerProfile, getUserEmail, verifyUser } from "../features/authentication/authenticationSlice"; // Import actions
+import { useLocation } from "react-router-dom";
 
 type AdditionalLink = {
   label: string;
@@ -25,6 +26,14 @@ const Register = () => {
     twitter: "",
     portfolio: "",
   });
+
+  const location = useLocation()
+
+  const [editProfileState, setEditProfileState] = useState(() => {
+  const params = new URLSearchParams(location.search);
+  return params.get("editProfile") === "true";
+});
+
   
   const token = useAppSelector((state) => state.auth.token);
   const loading = useAppSelector((state) => state.auth.loading);
@@ -101,6 +110,7 @@ const Register = () => {
 
 
     await dispatch(registerProfile(payload));
+    setEditProfileState(false)
   };
 
   /* ---------- Fetch User Email ---------- */
@@ -130,10 +140,10 @@ const Register = () => {
   }, [token, navigate, dispatch]);
 
   useEffect(() => {
-    if (isProfileComplete) {
+    if (isProfileComplete && !(editProfileState)) {
       navigate('/dashboard');
     }
-  }, [isProfileComplete, navigate]);
+  }, [isProfileComplete, navigate,editProfileState]);
 
   // Pre-fill form if user data exists
   useEffect(() => {
@@ -146,9 +156,7 @@ const Register = () => {
     }
   }, [user]);
 
-  useEffect(()=>{
-    toast.success("Please register yourself first!")
-  },[])
+  
 
   return (
     <div className="flex mt-10 min-h-screen items-center justify-center">

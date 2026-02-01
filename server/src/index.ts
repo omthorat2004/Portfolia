@@ -26,6 +26,10 @@ app.get('/',(req,res)=>{
 })
 
 
+app.get('/server-check',(req,res)=>{
+    return res.status(200).json({message:'Server has started!'})
+})
+
 
 app.listen(process.env.PORT,()=>{
     console.log(process.env.PORT)

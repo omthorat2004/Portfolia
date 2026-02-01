@@ -19,7 +19,11 @@ const Navbar = () => {
     const navigate = useNavigate()
 
     const logout = ()=>{
-        dispatch(logOut())
+        const confirmLogout = window.confirm("Are you sure you want to logout?")
+
+        if(confirmLogout){
+            dispatch(logOut())
+        }
     }
 
     const toggleTheme = () => {
@@ -52,7 +56,7 @@ const Navbar = () => {
                             {darkMode ? <MdLightMode /> : <MdDarkMode />}
                         </div>
                         {isAuthenticated?<div className="hidden md:flex justify-center items-center gap-3">
-                            <button className="nav-btn">Profile</button>
+                            <button onClick={()=>navigate('/profile')} className="nav-btn">Profile</button>
                             <button  onClick={logout} className="nav-btn">Logout</button>
                         </div>:<div className="hidden md:flex justify-center items-center gap-3">
                             <button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
@@ -80,7 +84,7 @@ const Navbar = () => {
                             <button onClick={()=>navigate('/projects')} className="cursor-pointer text-link hover:text-link-hover">
                                 Projects
                             </button>
-                            {isAuthenticated?<><button className="nav-btn">Profile</button><button className="nav-btn">Logout</button></>:<><button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
+                            {isAuthenticated?<><button onClick={()=>navigate('/profile')} className="nav-btn">Profile</button><button className="nav-btn">Logout</button></>:<><button onClick={()=>navigate('/login')} className="nav-btn">Login</button>
                             <button onClick={()=>navigate('/signup')} className="nav-btn">Signup</button></>}
                         </div>
                     </div>
