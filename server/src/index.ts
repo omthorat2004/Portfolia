@@ -27,7 +27,11 @@ app.get('/',(req,res)=>{
 
 
 app.get('/server-check',(req,res)=>{
-    return res.status(200).json({message:'Server has started!'})
+    let message="message"
+    setTimeout(()=>{
+        message="Server has started"
+    },3000)
+    return res.status(200).json({message})
 })
 
 
