@@ -1,7 +1,7 @@
 import mongoose, { Document, Model } from "mongoose";
 
 
-type AdditionalLink = {
+export type AdditionalLink = {
   label: string;
   value: string;
 };

@@ -38,13 +38,13 @@ function App() {
       return;
     }
 
-    if (isAuthenticated) {
-      if (isProfileComplete) {
-        navigate("/dashboard");
-      } else {
-        navigate("/register");
-      }
-    }
+    // if (isAuthenticated) {
+    //   if (isProfileComplete) {
+    //     navigate("/dashboard");
+    //   } else {
+    //     navigate("/register");
+    //   }
+    // }
   }, [isAuthenticated, isProfileComplete]);
 
   return (
