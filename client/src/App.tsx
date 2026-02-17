@@ -38,13 +38,7 @@ function App() {
       return;
     }
 
-    // if (isAuthenticated) {
-    //   if (isProfileComplete) {
-    //     navigate("/dashboard");
-    //   } else {
-    //     navigate("/register");
-    //   }
-    // }
+    
   }, [isAuthenticated, isProfileComplete]);
 
   return (

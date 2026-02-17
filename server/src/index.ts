@@ -1,5 +1,5 @@
-import express from "express"
 import cors from 'cors'
+import express from "express"
 import morgan from 'morgan'
 
 
@@ -9,9 +9,11 @@ const app = express()
 
 const MONGO_URL = process.env.MONGO_URL as string
 
+import mongoose from "mongoose"
+
+// routes
 import authRouter from './routes/auth.route'
 import projectRouter from './routes/project.route'
-import mongoose from "mongoose"
 
 app.use(express.json())
 app.use(cors())
