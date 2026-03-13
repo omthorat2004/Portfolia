@@ -1,7 +1,7 @@
-import { FaSearch } from 'react-icons/fa';
-import ProjectsPageHeader from '../features/projects/components/ProjectsPageHeader';
-import ProjectCard from '../features/projects/components/ProjectCard';
 import { useEffect, useRef, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
+import ProjectCard from '../features/projects/components/ProjectCard';
+import ProjectsPageHeader from '../features/projects/components/ProjectsPageHeader';
 
 export const projects = [
     {
@@ -207,6 +207,7 @@ const Projects = () => {
                 {projects.slice(0, visibleCount).map((ele, index) => (
                     <ProjectCard
                         key={index}
+                        id={`demo-${index}`}
                         title={ele.title}
                         techStack={ele.techStack}
                         demo={ele.demo}

@@ -7,11 +7,14 @@ import {
   FaPlus,
   FaTimes,
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "../store/hook";
-import { registerProfile, getUserEmail, verifyUser } from "../features/authentication/authenticationSlice"; // Import actions
-import { useLocation } from "react-router-dom";
+import {
+  registerProfile,
+  getUserEmail,
+  verifyUser,
+} from "../features/authentication/authenticationSlice";
 
 type AdditionalLink = {
   label: string;
@@ -19,6 +22,21 @@ type AdditionalLink = {
 };
 
 const Register = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  // ✅ Detect edit mode using route
+  const isEditMode = location.pathname === "/edit-profile";
+
+  const token = useAppSelector((state) => state.auth.token);
+  const loading = useAppSelector((state) => state.auth.loading);
+  const error = useAppSelector((state) => state.auth.error);
+  const isProfileComplete = useAppSelector(
+    (state) => state.auth.isProfileComplete
+  );
+  const user = useAppSelector((state) => state.auth.user);
+
   const [bio, setBio] = useState("");
   const [email, setEmail] = useState("");
   const [social, setSocial] = useState({
@@ -27,27 +45,9 @@ const Register = () => {
     portfolio: "",
   });
 
-  const location = useLocation()
-
-  const [editProfileState, setEditProfileState] = useState(() => {
-  const params = new URLSearchParams(location.search);
-  return params.get("editProfile") === "true";
-});
-
-  
-  const token = useAppSelector((state) => state.auth.token);
-  const loading = useAppSelector((state) => state.auth.loading);
-  const error = useAppSelector((state) => state.auth.error);
-  const isProfileComplete = useAppSelector((state) => state.auth.isProfileComplete);
-  const user = useAppSelector((state) => state.auth.user);
-
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState("");
-
   const [additionalLinks, setAdditionalLinks] = useState<AdditionalLink[]>([]);
-
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   /* ---------- Skills ---------- */
   const addSkill = () => {
@@ -89,7 +89,6 @@ const Register = () => {
       return;
     }
 
-    // Validate social links
     if (!social.github || !social.twitter || !social.portfolio) {
       toast.error("All social links are required");
       return;
@@ -108,64 +107,62 @@ const Register = () => {
       additionalLinks,
     };
 
+    try {
+      await dispatch(registerProfile(payload)).unwrap();
 
-    await dispatch(registerProfile(payload));
-    setEditProfileState(false)
-  };
+      toast.success(
+        isEditMode
+          ? "Profile updated successfully!"
+          : "Profile completed successfully!"
+      );
 
-  /* ---------- Fetch User Email ---------- */
-  const fetchUserEmailUsingToken = async () => {
-    if (token) {
-      try {
-        const result = await dispatch(getUserEmail()).unwrap();
-        setEmail(result);
-      } catch (err) {
-        console.error("Failed to fetch email:", err);
-        // If token is invalid, redirect to login
-        navigate('/login');
-      }
+      navigate("/dashboard");
+    } catch {
+      toast.error("Something went wrong");
     }
   };
 
-  /* ---------- Effects ---------- */
+  /* ---------- Auth Check ---------- */
   useEffect(() => {
     if (!token) {
-      // If no token, redirect to login
-      navigate('/login');
+      navigate("/login");
     } else {
-      // Verify token and get user info
       dispatch(verifyUser());
-      fetchUserEmailUsingToken();
+      dispatch(getUserEmail())
+        .unwrap()
+        .then((res) => setEmail(res))
+        .catch(() => navigate("/login"));
     }
   }, [token, navigate, dispatch]);
 
+  /* ---------- Redirect if already complete ---------- */
   useEffect(() => {
-    if (isProfileComplete && !(editProfileState)) {
-      navigate('/dashboard');
+    if (!isEditMode && isProfileComplete) {
+      navigate("/dashboard");
     }
-  }, [isProfileComplete, navigate,editProfileState]);
+  }, [isProfileComplete, isEditMode, navigate]);
 
-  // Pre-fill form if user data exists
+  /* ---------- Pre-fill form in edit mode ---------- */
   useEffect(() => {
     if (user) {
       setBio(user.bio || "");
-      setSocial(user.social || { github: "", twitter: "", portfolio: "" });
+      setSocial(
+        user.social || { github: "", twitter: "", portfolio: "" }
+      );
       setSkills(user.skills || []);
       setAdditionalLinks(user.additionalLinks || []);
       setEmail(user.email || "");
     }
   }, [user]);
 
-  
-
   return (
     <div className="flex mt-10 min-h-screen items-center justify-center">
       <form
         onSubmit={handleSubmit}
-        className="bg-card border border-border rounded-xl p-6 w-[420px] space-y-5"
+        className="card w-[420px] space-y-5"
       >
-        <h2 className="text-2xl font-semibold text-center text-foreground">
-          Complete Your Profile
+        <h2 className="text-2xl font-semibold text-center">
+          {isEditMode ? "Edit Your Profile" : "Complete Your Profile"}
         </h2>
 
         {error && (
@@ -174,68 +171,62 @@ const Register = () => {
           </div>
         )}
 
-        {/* Email (read-only) */}
+        {/* Email */}
         <div className="relative">
           <input
             type="email"
             value={email}
             readOnly
-            className="w-full border border-border rounded-md p-3 pr-10 bg-gray-100 cursor-not-allowed"
+            className="w-full p-3 pr-10 bg-gray-100 cursor-not-allowed"
           />
           <FaUser className="absolute right-3 top-3 text-muted" />
         </div>
 
         {/* Bio */}
-        <div className="relative">
-          <textarea
-            required
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Short bio about yourself"
-            className="w-full border border-border rounded-md p-3 pr-10 resize-none"
-            rows={3}
-          />
-          <FaUser className="absolute right-3 top-3 text-muted" />
-        </div>
+        <textarea
+          required
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Short bio about yourself"
+          className="w-full p-3 resize-none"
+          rows={3}
+        />
 
         {/* GitHub */}
-        <div className="relative">
-          <input
-            type="url"
-            placeholder="GitHub profile URL"
-            value={social.github}
-            required
-            onChange={(e) => setSocial({ ...social, github: e.target.value })}
-            className="w-full border border-border rounded-md p-3 pr-10"
-          />
-          <FaGithub className="absolute right-3 top-3 text-muted" />
-        </div>
+        <input
+          type="url"
+          placeholder="GitHub profile URL"
+          value={social.github}
+          required
+          onChange={(e) =>
+            setSocial({ ...social, github: e.target.value })
+          }
+          className="w-full p-3"
+        />
 
-        {/* Twitter / X */}
-        <div className="relative">
-          <input
-            type="url"
-            placeholder="X (Twitter) profile URL"
-            value={social.twitter}
-            required
-            onChange={(e) => setSocial({ ...social, twitter: e.target.value })}
-            className="w-full border border-border rounded-md p-3 pr-10"
-          />
-          <FaTwitter className="absolute right-3 top-3 text-muted" />
-        </div>
+        {/* Twitter */}
+        <input
+          type="url"
+          placeholder="X (Twitter) profile URL"
+          value={social.twitter}
+          required
+          onChange={(e) =>
+            setSocial({ ...social, twitter: e.target.value })
+          }
+          className="w-full p-3"
+        />
 
         {/* Portfolio */}
-        <div className="relative">
-          <input
-            type="url"
-            placeholder="Portfolio website URL"
-            value={social.portfolio}
-            onChange={(e) => setSocial({ ...social, portfolio: e.target.value })}
-            required
-            className="w-full border border-border rounded-md p-3 pr-10"
-          />
-          <FaLink className="absolute right-3 top-3 text-muted" />
-        </div>
+        <input
+          type="url"
+          placeholder="Portfolio website URL"
+          value={social.portfolio}
+          required
+          onChange={(e) =>
+            setSocial({ ...social, portfolio: e.target.value })
+          }
+          className="w-full p-3"
+        />
 
         {/* Skills */}
         <div>
@@ -243,20 +234,16 @@ const Register = () => {
             <input
               value={skillInput}
               onChange={(e) => setSkillInput(e.target.value)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
                   e.preventDefault();
                   addSkill();
                 }
               }}
-              placeholder="Add a skill (e.g. React)"
-              className="flex-1 border border-border rounded-md p-2"
+              placeholder="Add a skill"
+              className="flex-1 p-2"
             />
-            <button
-              type="button"
-              onClick={addSkill}
-              className="bg-accent text-accent-text px-3 rounded-md hover:bg-accent-hover"
-            >
+            <button type="button" onClick={addSkill} className="button">
               <FaPlus />
             </button>
           </div>
@@ -277,56 +264,17 @@ const Register = () => {
           </div>
         </div>
 
-        {/* Additional Links */}
-        <div className="space-y-3">
-          <p className="text-sm font-medium text-foreground">
-            Additional Links (Optional)
-          </p>
-
-          {additionalLinks.map((link, index) => (
-            <div key={index} className="flex gap-2">
-              <input
-                placeholder="Label"
-                value={link.label}
-                onChange={(e) =>
-                  updateAdditionalLink(index, "label", e.target.value)
-                }
-                className="w-1/3 border border-border rounded-md p-2"
-              />
-              <input
-                placeholder="URL"
-                value={link.value}
-                onChange={(e) =>
-                  updateAdditionalLink(index, "value", e.target.value)
-                }
-                className="flex-1 border border-border rounded-md p-2"
-              />
-              <button
-                type="button"
-                onClick={() => removeAdditionalLink(index)}
-                className="text-destructive hover:text-destructive-hover"
-              >
-                <FaTimes />
-              </button>
-            </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={addAdditionalLink}
-            className="flex items-center gap-2 text-sm text-accent hover:text-accent-hover"
-          >
-            <FaPlus /> Add another link
-          </button>
-        </div>
-
         {/* Submit */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-accent hover:bg-accent-hover text-accent-text py-2 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+          className="button w-full disabled:opacity-50"
         >
-          {loading ? 'Saving...' : 'Save & Continue'}
+          {loading
+            ? "Saving..."
+            : isEditMode
+            ? "Update Profile"
+            : "Save & Continue"}
         </button>
       </form>
     </div>

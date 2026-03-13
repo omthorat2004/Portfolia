@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import type { RootState } from "../../store/store";
 
 const BACKEND_URL = import.meta.env.VITE_APP_BACKEND_API;
 
@@ -232,6 +233,8 @@ const authSlice = createSlice({
       });
   },
 });
+
+export const selectToken = (state:RootState) => state.auth.token;
 
 export const { logOut, clearError } = authSlice.actions;
 export default authSlice.reducer;

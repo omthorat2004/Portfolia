@@ -3,19 +3,21 @@ import { useState } from "react";
 import { FiLayers } from "react-icons/fi";
 import { MdMenu } from "react-icons/md";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../store/hook";
 import { logOut } from "../features/authentication/authenticationSlice";
 
-
+import { useAppDispatch } from "../store/hook";
 const Navbar = () => {
     const [menuHidden, setMenuHidden] = useState(false)
     const [darkMode, setDarkMode] = useState(false)
 
     const isAuthenticated = useAppSelector((state)=>state.auth.isAuthenticated)
 
-    const dispatch = useDispatch()
+    
+
+    const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
     const logout = ()=>{
@@ -50,6 +52,7 @@ const Navbar = () => {
                     <div className="hidden nav-menu md:flex gap-3 text-base font-semibold">
                         <button onClick={()=>navigate('/howitworks')} className="cursor-pointer text-link hover:text-link-hover">How it works</button>
                         <button onClick={()=>navigate('/projects')}  className="cursor-pointer text-link hover:text-link-hover">Projects</button>
+                        <button onClick={()=>navigate('/dashboard')} className="cursor-pointer text-link hover:text-link-hover">Dashboard</button>
                     </div>
                     <div className="flex items-center gap-3">
                         <div className="flex justify-center items-center text-xl cursor-pointer" onClick={toggleTheme}>

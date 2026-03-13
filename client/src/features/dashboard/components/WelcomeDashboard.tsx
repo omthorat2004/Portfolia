@@ -1,18 +1,21 @@
-import React from "react";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../store/hook";
 
 const WelcomeDashboard = () => {
   const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   if (!user) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <p className="text-gray-500 text-lg">No user data available</p>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="card text-center">
+          <p className="text-muted text-lg">No user data available</p>
+        </div>
       </div>
     );
   }
 
-  // Function to get greeting based on current hour
   const getGreeting = () => {
     const hour = new Date().getHours();
     if (hour < 12) return "Good Morning";
@@ -20,62 +23,118 @@ const WelcomeDashboard = () => {
     return "Good Evening";
   };
 
-  const projectCount = user.projects?.length || 0;
+  const projectCountFromUser = user.projects?.length || 0; // kept for backwards compatibility
+  const projectCount = useAppSelector((state) => state.projects.projects.length);
+  const portfolioVisits = user.portfolioVisits || 0; // add this field in backend later
+
+  // Profile Completion Logic
+  const profileCompletion = useMemo(() => {
+    let totalFields = 6;
+    let completed = 0;
+
+    if (user.name) completed++;
+    if (user.email) completed++;
+    if (user.bio) completed++;
+    if (user.skills?.length) completed++;
+    if (user.social?.github || user.social?.twitter || user.social?.portfolio)
+      completed++;
+    if (user.additionalLinks?.length) completed++;
+
+    return Math.round((completed / totalFields) * 100);
+  }, [user]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 p-6 flex flex-col items-center">
-      {/* Welcome Header */}
-      <div className="bg-white shadow-2xl rounded-3xl p-10 w-full max-w-4xl mb-8 text-center transform transition-transform hover:scale-105">
-        <h1 className="text-5xl font-extrabold text-gray-800 mb-3">
-          {getGreeting()}, {user.name}!
-        </h1>
-        <p className="text-gray-600 text-lg">
-          You have {projectCount} project{projectCount !== 1 ? "s" : ""} in your portfolio.
-        </p>
-      </div>
-
-      {/* Stats / Quick Overview */}
-      <div className="bg-white shadow-xl rounded-3xl w-full max-w-4xl p-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Portfolio Count */}
-        <div className="col-span-1 bg-orange-50 p-6 rounded-2xl shadow-md flex flex-col items-center justify-center">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">Portfolio Projects</h2>
-          <p className="text-4xl font-bold text-orange-600">{projectCount}</p>
+    <div className="p-6">
+      <div className="max-w-5xl mx-auto card space-y-6">
+        {/* Greeting */}
+        <div className="flex justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">
+              {getGreeting()}, <span className="text-accent">{user.name}</span> 👋
+            </h1>
+            <p className="text-muted mt-1">
+              Here’s a quick overview of your profile.
+            </p>
+          </div>
+          <div>
+            <button
+              onClick={() => navigate('/create-project')}
+              className="cursor-pointer text-accent-text bg-accent hover:bg-accent-hover px-3 py-2 rounded-md"
+            >
+              + Create Project
+            </button>
+          </div>
         </div>
 
-        {/* Skills */}
-        <div className="col-span-1 bg-orange-50 p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-3">Skills</h2>
-          {user.skills?.length ? (
-            <ul className="flex flex-wrap gap-2">
-              {user.skills.map((skill, index) => (
-                <li
+        {/* Stats Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="card text-center">
+            <p className="text-muted">Portfolio Visits</p>
+            <h2 className="text-2xl font-bold">{portfolioVisits}</h2>
+          </div>
+
+          <div className="card text-center">
+            <p className="text-muted">Projects</p>
+            <h2 className="text-2xl font-bold">{projectCount}</h2>
+          </div>
+
+          <div className="card text-center">
+            <p className="text-muted">Skills</p>
+            <h2 className="text-2xl font-bold">
+              {user.skills?.length || 0}
+            </h2>
+          </div>
+        </div>
+
+        {/* Skills Preview */}
+        {user.skills && user.skills.length > 0 && (
+          <div>
+            <h3 className="font-semibold mb-2">Your Skills</h3>
+            <div className="flex flex-wrap gap-2">
+              {user.skills.map((skill: string, index: number) => (
+                <span
                   key={index}
-                  className="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-sm font-medium"
+                  className="px-3 py-1 rounded-full text-sm"
+                  style={{
+                    background: "var(--color-secondary)",
+                    color: "var(--foreground)",
+                  }}
                 >
                   {skill}
-                </li>
+                </span>
               ))}
-            </ul>
-          ) : (
-            <p className="text-gray-500">No skills added yet.</p>
+            </div>
+          </div>
+        )}
+
+        {/* Profile Completion */}
+        <div>
+          <div className="flex justify-between mb-2">
+            <span className="font-semibold">Profile Completion</span>
+            <span className="font-semibold">{profileCompletion}%</span>
+          </div>
+
+          <div className="w-full h-3 bg-border rounded-full overflow-hidden">
+            <div
+              className="h-full transition-all duration-500"
+              style={{
+                width: `${profileCompletion}%`,
+                background: "var(--color-success)",
+              }}
+            />
+          </div>
+
+          {profileCompletion < 100 && (
+            <div className="mt-4">
+              <button
+                className="button"
+                onClick={() => navigate("/edit-profile")}
+              >
+                Complete Profile
+              </button>
+            </div>
           )}
         </div>
-
-        {/* Bio */}
-        <div className="col-span-1 bg-orange-50 p-6 rounded-2xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-3">Bio</h2>
-          <p className="text-gray-800">{user.bio || "No bio added yet."}</p>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="mt-8 w-full max-w-4xl flex flex-col md:flex-row justify-center gap-4">
-        <button className="w-full md:w-auto bg-orange-600 text-white py-3 px-8 rounded-2xl hover:bg-orange-700 transition font-semibold shadow-lg">
-          Add New Project
-        </button>
-        <button className="w-full md:w-auto bg-gray-700 text-white py-3 px-8 rounded-2xl hover:bg-gray-800 transition font-semibold shadow-lg">
-          Edit Profile
-        </button>
       </div>
     </div>
   );

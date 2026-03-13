@@ -2,29 +2,29 @@ import React from "react";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-interface projectCardProps {
+interface dashboardProjectCardProps {
   id: string;
   title: string;
   description: string;
   techStack: string[];
-  authorName: string;
   github: string;
   demo: string;
 }
 
-const ProjectCard: React.FC<projectCardProps> = ({
+const DashboardProjectCard: React.FC<dashboardProjectCardProps> = ({
   id,
   title,
   description,
   techStack,
-  authorName,
   github,
   demo,
 }) => {
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate(`/portfolio/project/${id}`);
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent navigation if clicking on links
+    if ((e.target as HTMLElement).closest('a')) return;
+    navigate(`/project/${id}`);
   };
 
   return (
@@ -56,10 +56,8 @@ const ProjectCard: React.FC<projectCardProps> = ({
       </div>
 
       {/* Bottom section */}
-      <div className="mt-5 flex items-center justify-between">
-        <span className="text-sm text-muted">
-          by <span className="text-foreground font-medium">{authorName}</span>
-        </span>
+      <div className="mt-5 flex items-center justify-end">
+
 
         <div className="flex items-center gap-3">
           <a
@@ -87,4 +85,4 @@ const ProjectCard: React.FC<projectCardProps> = ({
   );
 };
 
-export default ProjectCard;
+export default DashboardProjectCard;
